@@ -1,0 +1,9 @@
+services:
+  web:
+    container_name: "todo-be"
+    build: .
+    ports:
+      - "80:80"
+  redis:
+    container_name: "redis"
+    image: "redis:alpine"

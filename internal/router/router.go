@@ -21,8 +21,8 @@ func SetEnv(config string) {
 
 func Router(config string) *gin.Engine {
 	SetEnv(config)
-	router := gin.Default()
 	gin.SetMode(viper.GetString("mode"))
+	router := gin.Default()
 
 	storage := redis.NewRedisStorage()
 	taskapi := router.Group("/tasks")

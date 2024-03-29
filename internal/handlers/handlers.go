@@ -21,7 +21,7 @@ func (h *TaskHandler) GetHandler(c *gin.Context) {
 
 func (h *TaskHandler) PostHandler(c *gin.Context) {
 	task := new(items.Task)
-	if err := c.ShouldBind(&task); err != nil {
+	if err := c.ShouldBindJSON(&task); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, err.Error())
 	} else {
@@ -37,7 +37,7 @@ func (h *TaskHandler) PostHandler(c *gin.Context) {
 func (h *TaskHandler) PutHandler(c *gin.Context) {
 	id := c.Param("id")
 	task := new(items.Task)
-	if err := c.ShouldBind(&task); err != nil {
+	if err := c.ShouldBindJSON(&task); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, err.Error())
 	} else {
@@ -52,15 +52,9 @@ func (h *TaskHandler) PutHandler(c *gin.Context) {
 
 func (h *TaskHandler) DeleteHandler(c *gin.Context) {
 	id := c.Param("id")
-	task := new(items.Task)
-	if err := c.ShouldBind(&task); err != nil {
-		log.Println(err)
+	if err := h.Storage.Delete(id); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	} else {
-		if err := h.Storage.Delete(id); err != nil {
-			c.JSON(http.StatusBadRequest, err.Error())
-		} else {
-			c.JSON(http.StatusOK, "Task deleted.")
-		}
+		c.JSON(http.StatusOK, "Task deleted.")
 	}
 }

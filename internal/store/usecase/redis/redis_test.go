@@ -8,7 +8,8 @@ import (
 )
 
 func TestStorage(t *testing.T) {
-	storage := NewRedisStorage()
+	config := redisConfig{Host: "localhost", Port: "6379"}
+	storage := Storage{Client: NewClient(&config)}
 
 	// testing database connection
 	pong, err := storage.Client.Ping(context.TODO()).Result()

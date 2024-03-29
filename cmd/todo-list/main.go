@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/FredYeh/todo-list/internal/router"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -14,7 +15,8 @@ func main() {
 	}
 	app := router.Router(config)
 
-	if err := app.Run(":80"); err != nil {
+	svr := viper.GetString("application.address") + ":" + viper.GetString("application.port")
+	if err := app.Run(svr); err != nil {
 		log.Fatal(err)
 	}
 }

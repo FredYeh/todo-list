@@ -25,7 +25,6 @@ func (h *TaskHandler) PostHandler(c *gin.Context) {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, err.Error())
 	} else {
-		task.Unify()
 		if err := h.Storage.Create(task); err != nil {
 			c.JSON(http.StatusBadRequest, err.Error())
 		} else {
@@ -41,7 +40,6 @@ func (h *TaskHandler) PutHandler(c *gin.Context) {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, err.Error())
 	} else {
-		task.Unify()
 		if err := h.Storage.Update(id, task); err != nil {
 			c.JSON(http.StatusBadRequest, err.Error())
 		} else {

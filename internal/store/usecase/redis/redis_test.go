@@ -18,7 +18,7 @@ func TestStorage(t *testing.T) {
 
 	// testing CRUD functions
 	// Create
-	err = storage.Create(map[string]any{"name": "testing", "status": 0})
+	id, err := storage.Create(map[string]any{"name": "testing", "status": 0})
 	assert.Equal(t, nil, err)
 
 	// Read
@@ -28,7 +28,7 @@ func TestStorage(t *testing.T) {
 	assert.Equal(t, "0", v["status"])
 
 	// Update
-	err = storage.Update(val[0]["id"], map[string]any{"name": "testing", "status": 1})
+	err = storage.Update(id, map[string]any{"name": "testing", "status": 1})
 	assert.Equal(t, nil, err)
 
 	// Read updated
@@ -38,7 +38,7 @@ func TestStorage(t *testing.T) {
 	assert.Equal(t, "1", v["status"])
 
 	// Delete
-	err = storage.Delete(val[0]["id"])
+	err = storage.Delete(id)
 	assert.Equal(t, nil, err)
 
 	// Read delete

@@ -41,10 +41,12 @@ func NewClient(config *redisConfig) *redis.Client {
 	return client
 }
 
-func (s *Storage) Create(t any) error {
+func (s *Storage) Create(t any) (string, error) {
 	id := uuid.New().String()
-	err := s.Client.HSet(context.TODO(), id, t).Err()
-	return err
+	if err := s.Client.HSet(context.TODO(), id, t).Err(); err != nil {
+		return "", err
+	}
+	return id, nil
 }
 
 func (s *Storage) Read() []map[string]string {

@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/FredYeh/todo-list/internal/handlers"
 	"github.com/FredYeh/todo-list/internal/store/usecase/redis"
 
@@ -33,6 +35,10 @@ func Router(config string) *gin.Engine {
 		taskapi.PUT("/:id", thandler.PutHandler)
 		taskapi.DELETE("/:id", thandler.DeleteHandler)
 	}
+
+	router.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "404 not found"})
+	})
 
 	return router
 }

@@ -51,3 +51,10 @@ type Task struct {
 	Name   string `json:"name" redis:"name"`
 	Status Status `json:"status" redis:"status"`
 }
+
+func (t Task) Map() map[string]any {
+	return map[string]any{
+		"name":   t.Name,
+		"status": int(t.Status),
+	}
+}

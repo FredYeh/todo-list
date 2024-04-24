@@ -55,6 +55,6 @@ type Task struct {
 func (t Task) Map() map[string]any {
 	return map[string]any{
 		"name":   t.Name,
-		"status": int(t.Status),
+		"status": t.Status.String(),
 	}
 }

@@ -7,14 +7,13 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/FredYeh/todo-list/internal/store/items"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRouters(t *testing.T) {
 	router := Router("test")
 	// Testing POST
-	task := items.Task{Name: "Testing", Status: items.Todo}
+	task := map[string]any{"Name": "Testing", "Status": "todo"}
 	reqBody, _ := json.Marshal(task)
 	req, _ := http.NewRequest("POST", "/tasks", bytes.NewBuffer(reqBody))
 	w := httptest.NewRecorder()
@@ -39,7 +38,7 @@ func TestRouters(t *testing.T) {
 	assert.Len(t, body, 1)
 
 	// Testing PUT
-	task = items.Task{Name: "Testing", Status: items.Done}
+	task = map[string]any{"Name": "Testing", "Status": "done"}
 	reqBody, err = json.Marshal(task)
 	assert.Equal(t, err, nil)
 	req, _ = http.NewRequest("PUT", "/tasks/"+taskMap["id"].(string), bytes.NewBuffer(reqBody))

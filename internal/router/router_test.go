@@ -35,7 +35,7 @@ func TestRouters(t *testing.T) {
 	taskMap := body["result"].([]any)[0].(map[string]any)
 	assert.Equal(t, "Testing", taskMap["name"].(string))
 	assert.Equal(t, "Todo", taskMap["status"].(string))
-	assert.Len(t, body, 1)
+	assert.Len(t, body["result"], 1)
 
 	// Testing PUT
 	task = map[string]any{"Name": "Testing", "Status": "done"}
@@ -56,8 +56,8 @@ func TestRouters(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 	taskMap = body["result"].([]any)[0].(map[string]any)
 	assert.Equal(t, "Testing", taskMap["name"])
-	assert.Equal(t, "1", taskMap["status"])
-	assert.Len(t, body, 1)
+	assert.Equal(t, "Done", taskMap["status"])
+	assert.Len(t, body["result"], 1)
 
 	// Testing DELETE
 	req, _ = http.NewRequest("DELETE", "/tasks/"+taskMap["id"].(string), nil)

@@ -3,6 +3,7 @@ package redis
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/google/uuid"
@@ -67,8 +68,8 @@ func (s *Storage) Read() []map[string]string {
 }
 
 func (s *Storage) Update(id string, t any) error {
-	if _, err := s.Client.HGetAll(context.TODO(), id).Result(); err != nil {
-		return err
+	if exist, _ := s.Client.Exists(context.TODO(), id).Result(); exist != 1 {
+		return fmt.Errorf("ID %s not exists", id)
 	}
 	err := s.Client.HSet(context.TODO(), id, t).Err()
 	return err

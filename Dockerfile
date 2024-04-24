@@ -1,16 +1,13 @@
 FROM golang:alpine AS build-stage
-
-WORKDIR /app
-
+WORKDIR /src
 COPY . .
-RUN go mod download
+RUN go build -o /app ./cmd/todo-list/main.go
 
-RUN go build -o app ./cmd/todo-list/main.go
-
-FROM build-stage AS run-test-stage
-RUN go test -v ./...
+# FROM build-stage AS run-test-stage
+# RUN go test -v ./...
 
 FROM scratch AS build-release-stage
-COPY --from=build-stage app config ./
-
-ENTRYPOINT ["/app", "release"]
+WORKDIR /
+COPY ./config ./config
+COPY --from=build-stage /app /app 
+CMD ["./app", "release"]

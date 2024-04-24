@@ -1,6 +1,7 @@
 package router
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/FredYeh/todo-list/internal/handlers"
@@ -14,6 +15,7 @@ func SetEnv(config string) {
 	viper.AddConfigPath("./config")
 	viper.SetConfigName(config)
 	if err := viper.ReadInConfig(); err != nil {
+		log.Println("Couldn't read config, using default config")
 		viper.Set("mode", "debug")
 		viper.Set("application.port", 80)
 		viper.Set("database.host", "localhost")

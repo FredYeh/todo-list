@@ -50,21 +50,21 @@ func (s *Storage) Create(t any) (string, error) {
 	return id, nil
 }
 
-func (s *Storage) Read() []map[string]string {
+func (s *Storage) Read() ([]map[string]string, error) {
 	res := make([]map[string]string, 0)
 	if allkeys, err := s.Client.Keys(context.TODO(), "*").Result(); err != nil {
-		log.Fatal(err)
+		return nil, err
 	} else {
 		for _, key := range allkeys {
 			if val, err := s.Client.HGetAll(context.TODO(), key).Result(); err != nil {
-				log.Fatal(err)
+				return nil, err
 			} else {
 				val["id"] = key
 				res = append(res, val)
 			}
 		}
 	}
-	return res
+	return res, nil
 }
 
 func (s *Storage) Update(id string, t any) error {

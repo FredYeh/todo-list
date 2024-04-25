@@ -22,7 +22,7 @@ func TestStorage(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	// Read
-	val := storage.Read()
+	val, _ := storage.Read()
 	v := val[0]
 	assert.Equal(t, "testing", v["name"])
 	assert.Equal(t, "0", v["status"])
@@ -32,7 +32,7 @@ func TestStorage(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	// Read updated
-	val = storage.Read()
+	val, _ = storage.Read()
 	v = val[0]
 	assert.Equal(t, "testing", v["name"])
 	assert.Equal(t, "1", v["status"])
@@ -42,6 +42,6 @@ func TestStorage(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	// Read delete
-	val = storage.Read()
+	val, _ = storage.Read()
 	assert.Equal(t, 0, len(val))
 }
